@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+
+     <!-- for Facebook -->
+     <meta property="og:title" content="期待新課綱的老師【情緒搜集器】"/>
+     <meta property="og:url" content="http://nmdap.udn.com.tw/test/facebookShare/"/>
+     <meta property="og:image" content="https://www.fillmurray.com/360/360"/>
+     <meta property="og:image:width" content="1200">
+     <meta property="og:image:height" content="630">
+     <meta property="og:description" content="「十二年國民基本教育課程綱要總綱」於103年11月發布，各領綱陸續發佈，並於108年8月正式上路，因此又稱為「108課綱」。"/>
+ 
+    <title>learn_facebook_share</title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but learn_facebook_share doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId            : '1010324812347164',
+          autoLogAppEvents : true,
+          xfbml            : true,
+          version          : 'v6.0'
+        });
+      };
+    
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/zh_TW/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
