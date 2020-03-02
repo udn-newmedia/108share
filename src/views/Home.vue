@@ -21,7 +21,8 @@
       </div>
       <div class="experience">
         <div class="experience-title">*4.想分享的經驗?</div>
-        <textarea class="experience-text-box" v-model="picked.experience.data" placeholder="想分享的經驗..."></textarea>
+        <div contenteditable class="experience-text-box" @blur="highlightContent" v-html="content()"></div>
+        <!-- <textarea class="experience-text-box" v-model="picked.experience.data" placeholder="想分享的經驗..."></textarea> -->
       </div>
       <div class="contact">
         <div class="contact-title">5.可以怎麼聯絡你(選項，各種聯絡方式皆可)</div>
@@ -140,20 +141,39 @@ export default {
       let msg = this.message
       vm.timer = 3
 
+      console.log(this.picked)
       //驗證是否為空的
       vm.isFromComplete = this.verify()
 
       if (vm.isFromComplete) {
         this.$store.dispatch('saveData', this.picked);
-        let target = setInterval(() => {
-          vm.timer = vm.timer - 1
-          if (vm.timer === 0) {
+        let bodyFormData = new FormData();
+        let title = vm.picked.emoji.data + '的' + vm.picked.jobs.data
+
+        bodyFormData.append('flag','Course');
+        bodyFormData.append('title', title);
+        bodyFormData.append('identity', vm.picked.jobs.data);
+        bodyFormData.append('mood', vm.picked.emoji.data);
+        bodyFormData.append('contact', vm.picked.contact.data);
+
+        axios.post('https://newmedia.udn.com.tw/active/api/message/', bodyFormData)
+        .then(function (response) {
+          console.log(response)
+          this.$router.push({ path: 'share' })
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+        // let target = setInterval(() => {
+        //   vm.timer = vm.timer - 1
+        //   if (vm.timer === 0) {
             
-            this.$router.push({ path: 'share' })
             
-            clearInterval(target)
-          }
-        }, 1000);
+            
+        //     clearInterval(target)
+        //   }
+        // }, 1000);
       }
 
       // //跳轉router 頁面
@@ -171,6 +191,17 @@ export default {
       //   console.log(error);
       // })
       
+    },
+    content () {
+      var html = ''
+      for(var text of this.picked.experience.data) {
+        html += '<span>' + text + ' ' + '</span>'
+      }
+      return html
+    },
+    highlightContent (evt) {
+      var texts = evt.target.innerText.split(' ')
+      this.picked.experience.data = texts.map(t => t.toLocaleUpperCase())
     },
     verify () {
      let vm = this
@@ -254,7 +285,14 @@ export default {
       }
     }
     .experience {
-
+      .experience-text-box {
+        border: solid 1px #d3d3d3;
+        border-radius: 5px;
+        text-align: left;
+        max-width: 800px; 
+        min-height: 100px;
+        margin: 0 auto;
+      }
     }
   }
   .send {
